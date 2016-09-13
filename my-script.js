@@ -1,6 +1,7 @@
 
 var folderSelect = document.createElement('select');
 folderSelect.id = "folderSelect";
+
 //Doesnt always seem to work, need to look at how to fix
 var element = document.evaluate( '//*[@id="inside"]/div[1]/div[2]/div[3]/div[12]/div/div[1]' ,document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null ).singleNodeValue;
 
@@ -16,7 +17,7 @@ chrome.storage.sync.get('folders', function (val) {
 folderSelect.onchange = function(){
     var foldername = folderSelect.options[folderSelect.selectedIndex].text;
     var image = window.location.pathname.split("/")[2];
-    console.log(image);
+
     chrome.storage.sync.get({"folders": []}, function (val) {
         var f = val.folders;
 
