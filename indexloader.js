@@ -3,11 +3,14 @@
  */
 window.onload = function(){
     document.getElementById('submit').onclick = function () {
-        var name = document.getElementById("folderInput").value;
+        var foldername = document.getElementById("folderInput").value;
+        var obj = {};
+        obj.name = foldername;
+        obj.img = [];
         chrome.storage.sync.get({"folders": []}, function (val) {
             var f = val.folders;
 
-            f.push(name);
+            f.push(obj);
 
             chrome.storage.sync.set({"folders": f}, function () {
                 chrome.storage.sync.get('folders', function (val) {
@@ -28,11 +31,27 @@ window.onload = function(){
     chrome.storage.sync.get('folders', function (val) {
         for(var i = 0; i < val.folders.length ; i++){
             var op = document.createElement('option');
-            op.value = val.folders[i];
-            op.innerHTML = val.folders[i];
+            op.value = val.folders[i].name;
+            op.innerHTML = val.folders[i].name;
             folderSelect.appendChild(op);
         }
     });
+
+
+    folderSelect.onchange = function (){
+        var foldername = folderSelect.options[folderSelect.selectedIndex].text;
+        chrome.storage.sync.get('folders', function(val){
+            for(var i = 0; i < val.folders.length ; i++){
+                var fldr = val.folders[i].img;
+                for(var j = 0; j < fldr.length; j++){
+                    var image = fldr[j];
+                    var label = document.createElement('label');
+                    label.innerHTML = fldr + " > " + image;
+                    document.getElementById('imgdiv').appendChild(label);
+                }
+            }
+        });
+    }
 
 
 }
