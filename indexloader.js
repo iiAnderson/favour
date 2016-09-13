@@ -1,12 +1,14 @@
 /**
  * Created by ra16 on 12/09/2016.
  */
+
 window.onload = function(){
     document.getElementById('submit').onclick = function () {
         var foldername = document.getElementById("folderInput").value;
         var obj = {};
         obj.name = foldername;
         obj.img = [];
+
         chrome.storage.sync.get({"folders": []}, function (val) {
             var f = val.folders;
 
@@ -20,6 +22,7 @@ window.onload = function(){
         });
     }
 
+    //Will have to load the favourites into the folders and look at support.
     document.getElementById('clear').onclick = function(){
         chrome.storage.sync.clear(function(){
             alert("cleared");
